@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { useInventory } from "../main";
 
 export const ProductsTable = () => {
@@ -49,7 +50,9 @@ export const ProductsTable = () => {
               <td className="h-32 w-20 border">
                 <img src={imageUrl} />
               </td>
-              <td className={rowClassName}>{name}</td>
+              <td className={`hover:text-blue-600 ${rowClassName}`}>
+                <Link to={`/product/${id}`}>{name}</Link>
+              </td>
               <td className={rowClassName}>{description}</td>
               <td className={rowClassName}>{price}</td>
               <td className={rowClassName}>{stock}</td>
