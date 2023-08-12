@@ -6,6 +6,7 @@ const {
   SET_DEPARTMENT_FILTER,
   SET_LOW_STOCK_FILTER,
   SET_SORT_FILTER,
+  ADD_INVENTORY,
 } = inventoryConstants;
 
 export const inventoryReducer = (state, { type, payload }) => {
@@ -18,6 +19,8 @@ export const inventoryReducer = (state, { type, payload }) => {
       return { ...state, lowStockFilter: payload };
     case SET_SORT_FILTER:
       return { ...state, sortFilter: payload };
+    case ADD_INVENTORY:
+      return { ...state, inventoryData: [...state.inventoryData, payload] };
     default:
       return state;
   }
