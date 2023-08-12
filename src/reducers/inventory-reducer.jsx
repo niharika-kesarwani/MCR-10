@@ -16,4 +16,7 @@ export const initialInventory = {
   inventoryData: localStorage.getItem("inventory")
     ? JSON.parse(localStorage.getItem("inventory"))
     : inventoryData,
+  departmentFilter: "All Departments",
+  lowStockFilter: false,
+  sortFilter: "Name",
 };

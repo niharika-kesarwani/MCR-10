@@ -14,6 +14,8 @@ export const InventoryProvider = ({ children }) => {
     inventoryReducer,
     initialInventory
   );
+  const { inventoryData, departmentFilter, lowStockFilter, sortFilter } =
+    inventory;
 
   const departments = inventory.inventoryData?.reduce(
     (final, { department }) =>
@@ -21,8 +23,33 @@ export const InventoryProvider = ({ children }) => {
     []
   );
 
+  const departmentFilteredInventory =
+    departmentFilter === "All Departments"
+      ? inventoryData
+      : inventoryData?.filter(
+          ({ department }) => department === departmentFilter
+        );
+
+  const lowStockFilteredInventory = lowStockFilter
+    ? departmentFilteredInventory?.filter(({ stock }) => stock <= 10)
+    : departmentFilteredInventory;
+
+  const sortFilteredInventory = [...lowStockFilteredInventory]?.sort((a, b) => {
+    return sortFilter === "Name"
+      ? a.name < b.name
+        ? -1
+        : b.name < a.name
+        ? 1
+        : 0
+      : sortFilter === "Price"
+      ? a.price - b.price
+      : a.stock - b.stock;
+  });
+
   return (
-    <InventoryContext.Provider value={{ inventory, setInventory, departments }}>
+    <InventoryContext.Provider
+      value={{ inventory, setInventory, departments, sortFilteredInventory }}
+    >
       {children}
     </InventoryContext.Provider>
   );
