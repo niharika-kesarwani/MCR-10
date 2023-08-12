@@ -7,7 +7,7 @@ export const Sidebar = () => {
   const sidebarText = ["Dashboard", "Departments", "Products"];
 
   return (
-    <div className="flex h-screen w-1/5 flex-col items-center gap-10 bg-black p-10 text-gray-500 opacity-90">
+    <div className="flex h-screen w-1/6 flex-col items-center gap-10 bg-black p-10 text-gray-500 opacity-90">
       {sidebarText?.map((item, index) => {
         const onSameRoute = location.pathname === "/" + item.toLowerCase();
         return (

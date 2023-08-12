@@ -15,8 +15,14 @@ export const InventoryProvider = ({ children }) => {
     initialInventory
   );
 
+  const departments = inventory.inventoryData?.reduce(
+    (final, { department }) =>
+      final.includes(department) ? final : [...final, department],
+    []
+  );
+
   return (
-    <InventoryContext.Provider value={{ inventory, setInventory }}>
+    <InventoryContext.Provider value={{ inventory, setInventory, departments }}>
       {children}
     </InventoryContext.Provider>
   );
