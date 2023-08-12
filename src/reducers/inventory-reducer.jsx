@@ -1,3 +1,4 @@
+/* eslint-disable no-case-declarations */
 import { inventoryData } from "../data/inventory-data";
 import { inventoryConstants } from "../constants/inventory-constants";
 
@@ -20,16 +21,16 @@ export const inventoryReducer = (state, { type, payload }) => {
     case SET_SORT_FILTER:
       return { ...state, sortFilter: payload };
     case ADD_INVENTORY:
-      return { ...state, inventoryData: [...state.inventoryData, payload] };
+      const updatedInventoryData = [...state.inventoryData, payload];
+      localStorage.setItem("inventory", JSON.stringify(updatedInventoryData));
+      return { ...state, inventoryData: updatedInventoryData };
     default:
       return state;
   }
 };
 
 export const initialInventory = {
-  inventoryData: localStorage.getItem("inventory")
-    ? JSON.parse(localStorage.getItem("inventory"))
-    : inventoryData,
+  inventoryData: inventoryData,
   departmentFilter: "All Departments",
   lowStockFilter: false,
   sortFilter: "Name",

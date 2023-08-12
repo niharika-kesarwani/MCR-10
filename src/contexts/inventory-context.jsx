@@ -1,11 +1,13 @@
 /* eslint-disable react-refresh/only-export-components */
 /* eslint-disable react/prop-types */
 /* eslint-disable react-hooks/rules-of-hooks */
-import { createContext, useContext, useReducer } from "react";
+import { createContext, useContext, useEffect, useReducer } from "react";
 import {
   inventoryReducer,
   initialInventory,
 } from "../reducers/inventory-reducer";
+import { inventoryConstants } from "../constants/inventory-constants";
+import { inventoryData as originalData } from "../data/inventory-data";
 
 export const InventoryContext = createContext();
 
@@ -16,6 +18,8 @@ export const InventoryProvider = ({ children }) => {
   );
   const { inventoryData, departmentFilter, lowStockFilter, sortFilter } =
     inventory;
+
+  const { SET_INVENTORY } = inventoryConstants;
 
   const departments = inventory.inventoryData?.reduce(
     (final, { department }) =>
@@ -45,6 +49,19 @@ export const InventoryProvider = ({ children }) => {
       ? a.price - b.price
       : a.stock - b.stock;
   });
+
+  useEffect(() => {
+    const localStorageInventory = localStorage.getItem("inventory");
+    if (localStorageInventory) {
+      setInventory({
+        type: SET_INVENTORY,
+        payload: JSON.parse(localStorageInventory),
+      });
+    } else {
+      localStorage.setItem("inventory", JSON.stringify(originalData));
+      setInventory({ type: SET_INVENTORY, payload: originalData });
+    }
+  }, []);
 
   return (
     <InventoryContext.Provider

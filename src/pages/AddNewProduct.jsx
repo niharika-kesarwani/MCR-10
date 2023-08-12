@@ -4,8 +4,8 @@ import { v4 as uuid } from "uuid";
 import { inventoryConstants } from "../constants/inventory-constants";
 
 export const AddNewProduct = () => {
-  const [formDetails, setFormDetails] = useState({
-    id: uuid(),
+  const initialFormDetails = {
+    id: "",
     department: "Kitchen",
     name: "",
     description: "",
@@ -15,21 +15,23 @@ export const AddNewProduct = () => {
     supplier: "",
     delivered: 0,
     imageUrl: "",
-  });
+  };
+  const [formDetails, setFormDetails] = useState(initialFormDetails);
   const { setInventory, departments } = useInventory();
   const { ADD_INVENTORY } = inventoryConstants;
   const inputClassName = "border-2 border-black p-2 w-96";
 
-  const formSubmitHandler = (e) => {
-    e.preventDefault();
+  const formSubmitHandler = () => {
     setInventory({
       type: ADD_INVENTORY,
       payload: {
         ...formDetails,
+        id: uuid(),
         price: Number(formDetails.price),
         stock: Number(formDetails.stock),
       },
     });
+    setFormDetails(initialFormDetails);
   };
 
   const changeFormData = (e) => {
@@ -59,6 +61,7 @@ export const AddNewProduct = () => {
           name="name"
           type="text"
           onChange={(e) => changeFormData(e)}
+          defaultValue={formDetails?.name}
           required
         />
         <label>Description:</label>
@@ -67,6 +70,7 @@ export const AddNewProduct = () => {
           name="description"
           type="text"
           onChange={(e) => changeFormData(e)}
+          defaultValue={formDetails?.description}
           required
         />
         <label>Price:</label>
@@ -75,6 +79,7 @@ export const AddNewProduct = () => {
           name="price"
           type="number"
           onChange={(e) => changeFormData(e)}
+          defaultValue={formDetails?.price}
           required
         />
         <label>Stock:</label>
@@ -83,6 +88,7 @@ export const AddNewProduct = () => {
           name="stock"
           type="number"
           onChange={(e) => changeFormData(e)}
+          defaultValue={formDetails?.stock}
           required
         />
         <label>SKU:</label>
@@ -91,6 +97,7 @@ export const AddNewProduct = () => {
           name="sku"
           type="text"
           onChange={(e) => changeFormData(e)}
+          defaultValue={formDetails?.sku}
           required
         />
         <label>Supplier:</label>
@@ -99,6 +106,7 @@ export const AddNewProduct = () => {
           name="supplier"
           type="text"
           onChange={(e) => changeFormData(e)}
+          defaultValue={formDetails?.supplier}
           required
         />
         <label>Delivered:</label>
@@ -109,6 +117,7 @@ export const AddNewProduct = () => {
           name="imageUrl"
           type="url"
           onChange={(e) => changeFormData(e)}
+          defaultValue={formDetails?.imageUrl}
           required
         />
         <button
